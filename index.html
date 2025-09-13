@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Embed Builder - Rede Gamer Solutions</title>
+    <meta name="description" content="Crie e visualize embeds para Discord em tempo real. Ferramenta oficial da Rede Gamer Solutions desde 2025.">
+    <meta name="keywords" content="discord, embed, webhook, builder, creator, discord embed, rede gamer solutions">
+    <meta name="author" content="Rede Gamer Solutions">
+    <style>
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Whitney', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #36393f;
+            color: #dcddde;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        /* Layout principal */
+        .container {
+            display: flex;
+            flex-direction: column;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: #2f3136;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.24);
+        }
+        
+        .header {
+            background-color: #202225;
+            padding: 16px 24px;
+            border-bottom: 1px solid #42454a;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #b9bbbe;
+            margin-top: 4px;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        /* Painel esquerdo - formulário */
+        .form-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 24px;
+            background-color: #2f3136;
+            border-right: 1px solid #42454a;
+        }
+        
+        .form-section {
+            margin-bottom: 24px;
+        }
+        
+        .form-section h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #fff;
+            border-bottom: 1px solid #42454a;
+            padding-bottom: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #b9bbbe;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #202225;
+            background-color: #40444b;
+            color: #dcddde;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #7289da;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .color-input {
+            display: flex;
+            align-items: center;
+        }
+        
+        .color-input input {
+            flex: 1;
+        }
+        
+        .color-preview {
+            width: 30px;
+            height: 30px;
+            border-radius: 3px;
+            margin-left: 10px;
+            border: 1px solid #202225;
+        }
+        
+        .btn {
+            padding: 10px 16px;
+            border-radius: 3px;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: #7289da;
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background-color: #677bc4;
+        }
+        
+        .btn-secondary {
+            background-color: #4f545c;
+            color: #fff;
+            margin-right: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #5d6269;
+        }
+        
+        .btn-danger {
+            background-color: #ed4245;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c03537;
+        }
+        
+        .field-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .field-row .form-group {
+            flex: 1;
+        }
+        
+        .add-field-btn {
+            background-color: #4f545c;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .add-field-btn:hover {
+            background-color: #5d6269;
+        }
+        
+        .dynamic-field {
+            background-color: #40444b;
+            padding: 16px;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .remove-field {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ed4245;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Painel direito - preview */
+        .preview-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 24px;
+            background-color: #36393f;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .preview-container {
+            flex: 1;
+            background-color: #2f3136;
+            border-radius: 8px;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        
+        .discord-embed {
+            background-color: #2f3136;
+            border-left: 4px solid #7289da;
+            border-radius: 4px;
+            padding: 8px 16px 16px 12px;
+            margin-bottom: 10px;
+            max-width: 432px;
+        }
+        
+        .embed-color {
+            height: 4px;
+            margin-bottom: 8px;
+            border-radius: 2px;
+        }
+        
+        .embed-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .embed-author img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .embed-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #00aff4;
+        }
+        
+        .embed-description {
+            font-size: 14px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .embed-fields {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        
+        @media (min-width: 500px) {
+            .embed-fields.two-columns {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .embed-field {
+            font-size: 14px;
+        }
+        
+        .embed-field .name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .embed-field .value {
+            color: #dcddde;
+        }
+        
+        .embed-image {
+            margin-top: 16px;
+            border-radius: 4px;
+            overflow: hidden;
+            max-width: 400px;
+        }
+        
+        .embed-image img {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        
+        .embed-thumbnail {
+            float: right;
+            margin: 0 0 16px 16px;
+            border-radius: 4px;
+            max-width: 80px;
+            max-height: 80px;
+        }
+        
+        .embed-thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .embed-footer {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #72767d;
+        }
+        
+        .embed-footer img {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #36393f;
+            border-radius: 8px;
+            padding: 24px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            margin-bottom: 16px;
+        }
+        
+        .modal-header h2 {
+            font-size: 20px;
+            color: #fff;
+        }
+        
+        .modal-body {
+            margin-bottom: 24px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .form-panel {
+                border-right: none;
+                border-bottom: 1px solid #42454a;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Discord Embed Builder</h1>
+            <p>Crie e visualize embeds para Discord em tempo real - Rede Gamer Solutions Since 2025</p>
+        </header>
+        
+        <div class="content">
+            <!-- Painel esquerdo: Formulário -->
+            <div class="form-panel">
+                <div class="form-section">
+                    <h2>Webhook</h2>
+                    <div class="form-group">
+                        <label for="webhook-url">Webhook URL</label>
+                        <input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..." />
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Conteúdo da Embed</h2>
+                    <div class="form-group">
+                        <label for="embed-title">Título</label>
+                        <input type="text" id="embed-title" placeholder="Título da embed" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="embed-description">Descrição</label>
+                        <textarea id="embed-description" placeholder="Descrição da embed"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="embed-color">Cor</label>
+                        <div class="color-input">
+                            <input type="color" id="embed-color" value="#7289da" />
+                            <div class="color-preview" id="color-preview"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Mídia</h2>
+                    <div class="form-group">
+                        <label for="embed-image">Imagem (URL)</label>
+                        <input type="text" id="embed-image" placeholder="https://exemplo.com/imagem.jpg" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="embed-thumbnail">Thumbnail (URL)</label>
+                        <input type="text" id="embed-thumbnail" placeholder="https://exemplo.com/thumbnail.jpg" />
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Rodapé</h2>
+                    <div class="form-group">
+                        <label for="embed-footer">Texto do rodapé</label>
+                        <input type="text" id="embed-footer" placeholder="Texto do rodapé" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="embed-footer-icon">Ícone do rodapé (URL)</label>
+                        <input type="text" id="embed-footer-icon" placeholder="https://exemplo.com/icone.png" />
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Campos Adicionais</h2>
+                    <button id="add-field-btn" class="add-field-btn">+ Adicionar campo</button>
+                    
+                    <div id="dynamic-fields">
+                        <!-- Campos serão adicionados dinamicamente aqui -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Painel direito: Preview -->
+            <div class="preview-panel">
+                <h2>Preview da Embed</h2>
+                <div class="preview-container">
+                    <div class="discord-embed" id="embed-preview">
+                        <div class="embed-color" id="preview-color"></div>
+                        <div class="embed-title" id="preview-title"></div>
+                        <div class="embed-description" id="preview-description"></div>
+                        <div class="embed-fields" id="preview-fields"></div>
+                        <div class="embed-image" id="preview-image"></div>
+                        <div class="embed-thumbnail" id="preview-thumbnail"></div>
+                        <div class="embed-footer" id="preview-footer"></div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="send-btn" class="btn btn-primary">Enviar para Webhook</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para feedback -->
+    <div class="modal" id="feedback-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Sucesso</h2>
+            </div>
+            <div class="modal-body">
+                <p id="modal-message">Sua embed foi enviada com sucesso!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="modal-close">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Elementos DOM
+        const webhookUrlInput = document.getElementById('webhook-url');
+        const embedTitleInput = document.getElementById('embed-title');
+        const embedDescriptionInput = document.getElementById('embed-description');
+        const embedColorInput = document.getElementById('embed-color');
+        const colorPreview = document.getElementById('color-preview');
+        const embedImageInput = document.getElementById('embed-image');
+        const embedThumbnailInput = document.getElementById('embed-thumbnail');
+        const embedFooterInput = document.getElementById('embed-footer');
+        const embedFooterIconInput = document.getElementById('embed-footer-icon');
+        const addFieldBtn = document.getElementById('add-field-btn');
+        const dynamicFieldsContainer = document.getElementById('dynamic-fields');
+        const sendBtn = document.getElementById('send-btn');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalClose = document.getElementById('modal-close');
+        
+        // Elementos de preview
+        const previewColor = document.getElementById('preview-color');
+        const previewTitle = document.getElementById('preview-title');
+        const previewDescription = document.getElementById('preview-description');
+        const previewFields = document.getElementById('preview-fields');
+        const previewImage = document.getElementById('preview-image');
+        const previewThumbnail = document.getElementById('preview-thumbnail');
+        const previewFooter = document.getElementById('preview-footer');
+        
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Atualiza o preview inicial
+            updatePreview();
+            
+            // Define a cor inicial no preview de cor
+            colorPreview.style.backgroundColor = embedColorInput.value;
+            previewColor.style.backgroundColor = embedColorInput.value;
+            
+            // Adiciona os event listeners para os inputs
+            setupEventListeners();
+        });
+        
+        // Configuração dos event listeners
+        function setupEventListeners() {
+            // Inputs de conteúdo
+            embedTitleInput.addEventListener('input', updatePreview);
+            embedDescriptionInput.addEventListener('input', updatePreview);
+            embedColorInput.addEventListener('input', function() {
+                colorPreview.style.backgroundColor = this.value;
+                updatePreview();
+            });
+            embedImageInput.addEventListener('input', updatePreview);
+            embedThumbnailInput.addEventListener('input', updatePreview);
+            embedFooterInput.addEventListener('input', updatePreview);
+            embedFooterIconInput.addEventListener('input', updatePreview);
+            
+            // Botão para adicionar campos
+            addFieldBtn.addEventListener('click', addField);
+            
+            // Botão para enviar
+            sendBtn.addEventListener('click', sendToWebhook);
+            
+            // Fechar modal
+            modalClose.addEventListener('click', function() {
+                feedbackModal.style.display = 'none';
+            });
+        }
+        
+        // Atualiza o preview em tempo real
+        function updatePreview() {
+            // Atualiza a cor
+            previewColor.style.backgroundColor = embedColorInput.value;
+            
+            // Atualiza o título
+            if (embedTitleInput.value) {
+                previewTitle.textContent = embedTitleInput.value;
+                previewTitle.style.display = 'block';
+            } else {
+                previewTitle.style.display = 'none';
+            }
+            
+            // Atualiza a descrição
+            if (embedDescriptionInput.value) {
+                previewDescription.textContent = embedDescriptionInput.value;
+                previewDescription.style.display = 'block';
+            } else {
+                previewDescription.style.display = 'none';
+            }
+            
+            // Atualiza a imagem
+            if (embedImageInput.value) {
+                previewImage.innerHTML = `<img src="${embedImageInput.value}" alt="Embed Image" onerror="this.style.display='none'">`;
+                previewImage.style.display = 'block';
+            } else {
+                previewImage.innerHTML = '';
+                previewImage.style.display = 'none';
+            }
+            
+            // Atualiza a thumbnail
+            if (embedThumbnailInput.value) {
+                previewThumbnail.innerHTML = `<img src="${embedThumbnailInput.value}" alt="Embed Thumbnail" onerror="this.style.display='none'">`;
+                previewThumbnail.style.display = 'block';
+            } else {
+                previewThumbnail.innerHTML = '';
+                previewThumbnail.style.display = 'none';
+            }
+            
+            // Atualiza o rodapé
+            if (embedFooterInput.value) {
+                let footerHTML = '';
+                if (embedFooterIconInput.value) {
+                    footerHTML += `<img src="${embedFooterIconInput.value}" alt="Footer Icon" onerror="this.style.display='none'">`;
+                }
+                footerHTML += `<span>${embedFooterInput.value}</span>`;
+                previewFooter.innerHTML = footerHTML;
+                previewFooter.style.display = 'flex';
+            } else {
+                previewFooter.innerHTML = '';
+                previewFooter.style.display = 'none';
+            }
+            
+            // Atualiza os campos dinâmicos no preview
+            updateFieldsPreview();
+        }
+        
+        // Adiciona um novo campo dinâmico
+        function addField() {
+            const fieldId = Date.now(); // ID único baseado no timestamp
+            const fieldHTML = `
+                <div class="dynamic-field" id="field-${fieldId}">
+                    <button class="remove-field" onclick="removeField(${fieldId})">×</button>
+                    <div class="field-row">
+                        <div class="form-group">
+                            <label for="field-name-${fieldId}">Nome do campo</label>
+                            <input type="text" id="field-name-${fieldId}" placeholder="Nome" oninput="updatePreview()" />
+                        </div>
+                        <div class="form-group">
+                            <label for="field-value-${fieldId}">Valor do campo</label>
+                            <input type="text" id="field-value-${fieldId}" placeholder="Valor" oninput="updatePreview()" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="field-inline-${fieldId}">
+                            <input type="checkbox" id="field-inline-${fieldId}" onchange="updatePreview()" /> Em linha
+                        </label>
+                    </div>
+                </div>
+            `;
+            
+            dynamicFieldsContainer.insertAdjacentHTML('beforeend', fieldHTML);
+            updatePreview();
+        }
+        
+        // Remove um campo dinâmico
+        function removeField(fieldId) {
+            const fieldElement = document.getElementById(`field-${fieldId}`);
+            if (fieldElement) {
+                fieldElement.remove();
+                updatePreview();
+            }
+        }
+        
+        // Atualiza os campos no preview
+        function updateFieldsPreview() {
+            // Limpa os campos atuais no preview
+            previewFields.innerHTML = '';
+            
+            // Obtém todos os campos dinâmicos
+            const fieldElements = document.querySelectorAll('.dynamic-field');
+            let hasInlineFields = false;
+            
+            // Verifica se há campos em linha
+            fieldElements.forEach(field => {
+                const fieldId = field.id.split('-')[1];
+                const inlineCheckbox = document.getElementById(`field-inline-${fieldId}`);
+                if (inlineCheckbox && inlineCheckbox.checked) {
+                    hasInlineFields = true;
+                }
+            });
+            
+            // Aplica layout de colunas se houver campos em linha
+            previewFields.classList.toggle('two-columns', hasInlineFields);
+            
+            // Adiciona cada campo ao preview
+            fieldElements.forEach(field => {
+                const fieldId = field.id.split('-')[1];
+                const fieldName = document.getElementById(`field-name-${fieldId}`).value;
+                const fieldValue = document.getElementById(`field-value-${fieldId}`).value;
+                
+                if (fieldName || fieldValue) {
+                    const fieldHTML = `
+                        <div class="embed-field">
+                            <div class="name">${fieldName || '\u200B'}</div>
+                            <div class="value">${fieldValue || '\u200B'}</div>
+                        </div>
+                    `;
+                    previewFields.insertAdjacentHTML('beforeend', fieldHTML);
+                }
+            });
+        }
+        
+        // Envia a embed para o webhook
+        function sendToWebhook() {
+            const webhookUrl = webhookUrlInput.value.trim();
+            
+            // Valida a URL do webhook
+            if (!webhookUrl) {
+                showModal('Erro', 'Por favor, insira uma URL de webhook válida.');
+                return;
+            }
+            
+            // Constrói o objeto da embed
+            const embedData = {
+                embeds: [buildEmbedObject()]
+            };
+            
+            // Envia a requisição
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(embedData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    showModal('Sucesso', 'Embed enviada com sucesso para o Discord!');
+                } else {
+                    showModal('Erro', 'Falha ao enviar a embed. Verifique a URL do webhook.');
+                }
+            })
+            .catch(error => {
+                showModal('Erro', 'Ocorreu um erro ao tentar enviar a embed: ' + error.message);
+            });
+        }
+        
+        // Constrói o objeto da embed a partir dos inputs
+        function buildEmbedObject() {
+            const embed = {};
+            
+            // Adiciona os campos básicos
+            if (embedTitleInput.value) embed.title = embedTitleInput.value;
+            if (embedDescriptionInput.value) embed.description = embedDescriptionInput.value;
+            if (embedColorInput.value) embed.color = parseInt(embedColorInput.value.substring(1), 16);
+            
+            // Adiciona a imagem
+            if (embedImageInput.value) {
+                embed.image = { url: embedImageInput.value };
+            }
+            
+            // Adiciona a thumbnail
+            if (embedThumbnailInput.value) {
+                embed.thumbnail = { url: embedThumbnailInput.value };
+            }
+            
+            // Adiciona o rodapé
+            if (embedFooterInput.value) {
+                embed.footer = { text: embedFooterInput.value };
+                if (embedFooterIconInput.value) {
+                    embed.footer.icon_url = embedFooterIconInput.value;
+                }
+            }
+            
+            // Adiciona campos dinâmicos
+            const fieldElements = document.querySelectorAll('.dynamic-field');
+            if (fieldElements.length > 0) {
+                embed.fields = [];
+                
+                fieldElements.forEach(field => {
+                    const fieldId = field.id.split('-')[1];
+                    const fieldName = document.getElementById(`field-name-${fieldId}`).value;
+                    const fieldValue = document.getElementById(`field-value-${fieldId}`).value;
+                    const inlineCheckbox = document.getElementById(`field-inline-${fieldId}`);
+                    const inline = inlineCheckbox ? inlineCheckbox.checked : false;
+                    
+                    if (fieldName || fieldValue) {
+                        embed.fields.push({
+                            name: fieldName || '\u200B',
+                            value: fieldValue || '\u200B',
+                            inline: inline
+                        });
+                    }
+                });
+            }
+            
+            return embed;
+        }
+        
+        // Exibe o modal com feedback
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            feedbackModal.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
