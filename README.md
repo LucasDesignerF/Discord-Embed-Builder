@@ -1,95 +1,137 @@
-# 🎨 Discord Embed Builder  
+# Discord Embed Builder
 
-![GitHub Repo stars](https://img.shields.io/github/stars/LucasDesignerF/Discord-Embed-Builder?style=for-the-badge&color=blue)  
-![GitHub forks](https://img.shields.io/github/forks/LucasDesignerF/Discord-Embed-Builder?style=for-the-badge&color=blueviolet)  
-![GitHub license](https://img.shields.io/github/license/LucasDesignerF/Discord-Embed-Builder?style=for-the-badge&color=success)  
-![Made with HTML](https://img.shields.io/badge/Made%20with-HTML-orange?style=for-the-badge)  
-![Made with JS](https://img.shields.io/badge/Made%20with-JavaScript-yellow?style=for-the-badge)  
-![Made with CSS](https://img.shields.io/badge/Made%20with-CSS-blue?style=for-the-badge)  
+<div align="center">
 
-Um **criador de embeds para Discord** totalmente em **HTML + CSS + JavaScript puro** com **preview em tempo real** e envio direto para **Webhooks**.  
-Interface moderna inspirada no Discord, responsiva e leve, sem depender de frameworks externos.  
+![Discord](https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
----
+Uma ferramenta web para criar e visualizar embeds para Discord em tempo real.
 
-## ✨ Funcionalidades  
+[![GitHub issues](https://img.shields.io/github/issues/LucasDesignerF/Discord-Embed-Builder?style=flat-square)](https://github.com/LucasDesignerF/Discord-Embed-Builder/issues)
+[![GitHub forks](https://img.shields.io/github/forks/LucasDesignerF/Discord-Embed-Builder?style=flat-square)](https://github.com/LucasDesignerF/Discord-Embed-Builder/network)
+[![GitHub stars](https://img.shields.io/github/stars/LucasDesignerF/Discord-Embed-Builder?style=flat-square)](https://github.com/LucasDesignerF/Discord-Embed-Builder/stargazers)
+[![GitHub license](https://img.shields.io/github/license/LucasDesignerF/Discord-Embed-Builder?style=flat-square)](https://github.com/LucasDesignerF/Discord-Embed-Builder/blob/main/LICENSE)
 
-✅ Criador de embeds com título, descrição, cor, imagens, footer e campos dinâmicos.  
-✅ Preview em tempo real no estilo oficial do Discord.  
-✅ Envio direto para Webhooks com feedback de sucesso/erro.  
-✅ Interface dark inspirada no Discord.  
-✅ Totalmente responsivo (desktop e mobile).  
-✅ Apenas **1 arquivo HTML** com tudo embutido.  
+[Demo](#-demonstração) • [Funcionalidades](#-funcionalidades) • [Como Usar](#-como-usar) • [Desenvolvimento](#-desenvolvimento)
 
----
+</div>
 
-## 📸 Demonstração  
+## 📖 Sobre o Projeto
 
-> *Adicione aqui prints ou GIFs mostrando o editor e o preview em ação*  
+O **Discord Embed Builder** é uma aplicação web que permite criar, visualizar em tempo real e enviar embeds personalizados para canais do Discord através de webhooks. Desenvolvido com HTML5, CSS3 e JavaScript vanilla, este projeto é uma solução completa para quem precisa criar mensagens embed de forma rápida e intuitiva.
 
----
+Este projeto foi desenvolvido pela **Rede Gamer Solutions** em 2025.
 
-## 🚀 Como Usar  
+## 🚀 Funcionalidades
 
-1. Clone o repositório:  
-   ```bash
-   git clone https://github.com/LucasDesignerF/Discord-Embed-Builder.git
-``
+- ✅ **Interface inspirada no Discord** com tema escuro
+- ✅ **Preview em tempo real** das alterações
+- ✅ **Suporte a todos os elementos de embed**:
+  - Título e descrição
+  - Cor personalizável com seletor de cores
+  - Imagem e thumbnail por URL
+  - Rodapé com texto e ícone
+  - Campos adicionais dinâmicos (com opção de inline)
+- ✅ **Envio direto para webhook** do Discord
+- ✅ **Design responsivo** para desktop e mobile
+- ✅ **Single-file application** - tudo em um único arquivo HTML
 
-2. Abra o arquivo `index.html` no navegador.
-3. Preencha os campos da embed no painel esquerdo.
-4. Veja o preview em tempo real no painel direito.
-5. (Opcional) Insira seu Webhook e clique em **Enviar**.
+## 🎮 Demonstração
 
----
+![Demonstração do Discord Embed Builder](https://via.placeholder.com/800x400/36393f/ffffff?text=Discord+Embed+Builder+Demo)
 
-## 🛠️ Tecnologias
+> *Nota: Adicione uma screenshot real do seu projeto aqui*
 
-| Tecnologia     | Uso                                      |
-| -------------- | ---------------------------------------- |
-| **HTML5**      | Estrutura da aplicação                   |
-| **CSS3**       | Estilização embutida no próprio HTML     |
-| **JavaScript** | Preview em tempo real e envio ao Webhook |
+## 🛠️ Como Usar
 
----
+### Acesso Online
+Acesse a versão mais recente do projeto diretamente pelo GitHub Pages:
+[**Abrir Discord Embed Builder**](https://lucasdesignerf.github.io/Discord-Embed-Builder/)
 
-## 📂 Estrutura do Projeto
+### Execução Local
+1. Clone o repositório:
+```bash
+git clone https://github.com/LucasDesignerF/Discord-Embed-Builder.git
+```
 
+2. Navegue até o diretório do projeto:
+```bash
+cd Discord-Embed-Builder
+```
+
+3. Abra o arquivo `index.html` em seu navegador:
+```bash
+# Usando Python
+python -m http.server 8000
+
+# Ou usando Node.js
+npx http-server
+
+# Ou simplesmente abra o arquivo diretamente no navegador
+```
+
+### Como Obter um Webhook URL
+1. Abra as configurações do seu canal no Discord
+2. Vá em "Integrações" > "Webhooks"
+3. Clique em "Criar Webhook" ou use um existente
+4. Copie a URL do webhook
+5. Cole no campo correspondente no Discord Embed Builder
+
+## 🏗️ Desenvolvimento
+
+### Estrutura do Projeto
 ```
 Discord-Embed-Builder/
-│
-├── index.html   # Arquivo único contendo HTML, CSS e JS
-└── README.md    # Documentação do projeto
+├── index.html          # Arquivo principal da aplicação
+├── README.md           # Documentação do projeto
+└── LICENSE             # Licença do projeto
 ```
 
+### Tecnologias Utilizadas
+- **HTML5** - Estrutura semântica da aplicação
+- **CSS3** - Estilização com design inspirado no Discord
+- **JavaScript Vanilla** - Lógica e interatividade
+- **Discord Webhook API** - Integração com Discord
+
+### Personalização
+O código está organizado em seções bem comentadas para facilitar a personalização:
+- Modifique as cores no CSS para alterar o tema
+- Adicione novos campos no formulário conforme necessário
+- Ajuste o layout responsivo para diferentes tamanhos de tela
+
+## 🤝 Contribuindo
+
+Contribuições são sempre bem-vindas! Sinta-se à vontade para:
+
+1. Fazer um fork do projeto
+2. Criar uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abrir um Pull Request
+
+## 📞 Suporte
+
+- **Discord Pessoal:** `lrfortes`
+- **Servidor Discord:** [Entre no servidor](https://discord.gg/w4RhuhrBS2)
+- **Issues:** [Reportar problema](https://github.com/LucasDesignerF/Discord-Embed-Builder/issues)
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 👨‍💻 Desenvolvedor
+
+**Lucas Fortes** - [@LucasDesignerF](https://github.com/LucasDesignerF)
+
+Desenvolvido com ❤️ pela **Rede Gamer Solutions** © 2025
+
 ---
 
-## 🤝 Contribuições
+<div align="center">
 
-Contribuições são bem-vindas!
+[![Discord](https://img.shields.io/badge/Discord-Join%20Server-7289DA?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/w4RhuhrBS2)
+[![GitHub](https://img.shields.io/badge/GitHub-View%20Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/LucasDesignerF/Discord-Embed-Builder)
 
-1. Faça um fork do projeto
-2. Crie uma branch com sua feature: `git checkout -b minha-feature`
-3. Commit suas alterações: `git commit -m 'Adicionei uma nova feature'`
-4. Envie para sua branch: `git push origin minha-feature`
-5. Abra um Pull Request 🚀
-
----
-
-## 📜 Licença
-
-Este projeto está sob a licença **MIT**.
-Veja mais em [LICENSE](./LICENSE).
-
----
-
-### 🌐 Autor
-
-👤 **Lucas Fortes**
-
-* GitHub: [@LucasDesignerF](https://github.com/LucasDesignerF)
-* Discord: `GameTide Solutions - Lucas`
-
-
-Quer que eu monte também um **banner visual estilizado (SVG/PNG)** para você colocar no topo do README como capa do projeto?
-```
+</div>
