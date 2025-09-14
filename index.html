@@ -276,6 +276,7 @@
             font-size: 14px;
             margin-bottom: 8px;
             line-height: 1.4;
+            white-space: pre-line;
         }
         
         .embed-fields {
@@ -302,6 +303,7 @@
         
         .embed-field .value {
             color: #dcddde;
+            white-space: pre-line;
         }
         
         .embed-image {
@@ -394,6 +396,46 @@
             justify-content: flex-end;
         }
         
+        /* Seção de emojis */
+        .emoji-section {
+            background-color: #40444b;
+            border-radius: 4px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+        
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+            max-height: 150px;
+            overflow-y: auto;
+            padding: 8px;
+            background-color: #36393f;
+            border-radius: 4px;
+        }
+        
+        .emoji-item {
+            font-size: 24px;
+            text-align: center;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .emoji-item:hover {
+            background-color: #7289da;
+        }
+        
+        .emoji-category {
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #b9bbbe;
+            font-size: 14px;
+        }
+        
         /* Responsividade */
         @media (max-width: 768px) {
             .content {
@@ -403,6 +445,10 @@
             .form-panel {
                 border-right: none;
                 border-bottom: 1px solid #42454a;
+            }
+            
+            .emoji-grid {
+                grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
             }
         }
     </style>
@@ -433,7 +479,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="embed-description">Descrição</label>
+                        <label for="embed-description">Descrição (use Enter para quebras de linha)</label>
                         <textarea id="embed-description" placeholder="Descrição da embed"></textarea>
                     </div>
                     
@@ -478,6 +524,28 @@
                     
                     <div id="dynamic-fields">
                         <!-- Campos serão adicionados dinamicamente aqui -->
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h2>Emojis Unicode</h2>
+                    <p>Clique em um emoji para adicioná-lo à descrição</p>
+                    
+                    <div class="emoji-section">
+                        <div class="emoji-category">Reações e Expressões</div>
+                        <div class="emoji-grid" id="emojis-reactions">
+                            <!-- Emojis serão adicionados dinamicamente -->
+                        </div>
+                        
+                        <div class="emoji-category">Setas e Símbolos</div>
+                        <div class="emoji-grid" id="emojis-arrows">
+                            <!-- Emojis serão adicionados dinamicamente -->
+                        </div>
+                        
+                        <div class="emoji-category">Especiais</div>
+                        <div class="emoji-grid" id="emojis-special">
+                            <!-- Emojis serão adicionados dinamicamente -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -547,6 +615,30 @@
         const previewThumbnail = document.getElementById('preview-thumbnail');
         const previewFooter = document.getElementById('preview-footer');
         
+        // Elementos de emojis
+        const emojisReactions = document.getElementById('emojis-reactions');
+        const emojisArrows = document.getElementById('emojis-arrows');
+        const emojisSpecial = document.getElementById('emojis-special');
+        
+        // Lista de emojis Unicode
+        const unicodeEmojis = {
+            reactions: [
+                '😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', 
+                '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚',
+                '👍', '👎', '❤️', '🔥', '🎉', '🤔', '👀', '🙌', '👏', '🤝'
+            ],
+            arrows: [
+                '⬆️', '↗️', '➡️', '↘️', '⬇️', '↙️', '⬅️', '↖️', '↕️', '↔️',
+                '↩️', '↪️', '⤴️', '⤵️', '🔃', '🔄', '🔙', '🔚', '🔛', '🔜',
+                '🔝', '✔️', '☑️', '🔘', '➰', '➿', '〰️', '🔺', '🔻', '🔸'
+            ],
+            special: [
+                '⭐', '✨', '🌟', '💫', '⚡', '💥', '🔥', '🌈', '🌊', '❄️',
+                '💧', '💦', '☀️', '🌙', '🪐', '🔮', '🎯', '🎮', '🎨', '🎭',
+                '🎬', '🎵', '🎶', '🏆', '🎪', '🎟️', '🎫', '🏅', '🎖️', '📛'
+            ]
+        };
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             // Atualiza o preview inicial
@@ -555,6 +647,9 @@
             // Define a cor inicial no preview de cor
             colorPreview.style.backgroundColor = embedColorInput.value;
             previewColor.style.backgroundColor = embedColorInput.value;
+            
+            // Carrega os emojis
+            loadEmojis();
             
             // Adiciona os event listeners para os inputs
             setupEventListeners();
@@ -586,6 +681,56 @@
             });
         }
         
+        // Carrega os emojis Unicode nas seções
+        function loadEmojis() {
+            // Emojis de reações
+            unicodeEmojis.reactions.forEach(emoji => {
+                const emojiElement = document.createElement('div');
+                emojiElement.className = 'emoji-item';
+                emojiElement.textContent = emoji;
+                emojiElement.addEventListener('click', () => insertEmoji(emoji));
+                emojisReactions.appendChild(emojiElement);
+            });
+            
+            // Emojis de setas
+            unicodeEmojis.arrows.forEach(emoji => {
+                const emojiElement = document.createElement('div');
+                emojiElement.className = 'emoji-item';
+                emojiElement.textContent = emoji;
+                emojiElement.addEventListener('click', () => insertEmoji(emoji));
+                emojisArrows.appendChild(emojiElement);
+            });
+            
+            // Emojis especiais
+            unicodeEmojis.special.forEach(emoji => {
+                const emojiElement = document.createElement('div');
+                emojiElement.className = 'emoji-item';
+                emojiElement.textContent = emoji;
+                emojiElement.addEventListener('click', () => insertEmoji(emoji));
+                emojisSpecial.appendChild(emojiElement);
+            });
+        }
+        
+        // Insere um emoji no campo de descrição
+        function insertEmoji(emoji) {
+            const cursorPosition = embedDescriptionInput.selectionStart;
+            const currentValue = embedDescriptionInput.value;
+            
+            // Insere o emoji na posição do cursor
+            embedDescriptionInput.value = 
+                currentValue.substring(0, cursorPosition) + 
+                emoji + 
+                currentValue.substring(cursorPosition);
+            
+            // Atualiza a posição do cursor
+            embedDescriptionInput.selectionStart = cursorPosition + emoji.length;
+            embedDescriptionInput.selectionEnd = cursorPosition + emoji.length;
+            
+            // Foca no campo e atualiza o preview
+            embedDescriptionInput.focus();
+            updatePreview();
+        }
+        
         // Atualiza o preview em tempo real
         function updatePreview() {
             // Atualiza a cor
@@ -599,7 +744,7 @@
                 previewTitle.style.display = 'none';
             }
             
-            // Atualiza a descrição
+            // Atualiza a descrição (mantendo quebras de linha)
             if (embedDescriptionInput.value) {
                 previewDescription.textContent = embedDescriptionInput.value;
                 previewDescription.style.display = 'block';
